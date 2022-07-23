@@ -1,0 +1,50 @@
+@import "~bootstrap/scss/bootstrap";
+@import '../abstracts/base'; 
+
+.sidebar {
+    // background-color: $blue-900;
+    background-color: $bg;
+    width: 16rem;
+    transition: all;
+    transition-duration: 200ms;
+    height: 100vh;
+    left: 0;
+    z-index: 99;
+    border-right: 1px solid $separator-color;
+}
+
+.img-profile {
+    width: 70px;
+    height: 70px;
+    // object-fit: contain;
+}
+
+.content {
+    background-color: $bg-light;
+    min-height: 100vh;
+}
+
+.hideSidebar {
+    left: -17rem;
+}
+
+.nav-bg {
+    background-color: $bg;
+    border-bottom: 1px solid $separator-color;
+}
+
+.menu-icon {
+    cursor: pointer;
+}
+
+@include media-breakpoint-up(xl) {
+    .myNav {
+        margin-left: 16rem;
+    }
+    .hide {
+        display: none;
+    }
+    .sidebar {
+        left: 0;
+    }
+}

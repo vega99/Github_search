@@ -1,0 +1,25 @@
+@import '../abstracts/base';
+
+
+%button {
+    outline: none;
+    // padding: 3px 6px;
+    border: none;
+    background-color: transparent;
+    border-radius: 7px;
+    &:hover {
+        border-width: 2px;
+    }
+}
+
+.button-primary {
+    @extend %button;
+    color: $primary-color;
+    border-color: $primary-color;
+}
+
+.button-secondary {
+    @extend %button;
+    color: $secondary-color;
+    border-color: $secondary-color;
+}

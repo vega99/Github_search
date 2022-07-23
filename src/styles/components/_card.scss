@@ -1,0 +1,13 @@
+@import '../abstracts/base';
+
+
+.user-item {
+    background-color: $bg;
+    padding: 8px;
+    margin: 10px 0;
+}
+
+.user-img {
+    width: 100px;
+    height: auto;
+}

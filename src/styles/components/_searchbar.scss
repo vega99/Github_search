@@ -1,0 +1,27 @@
+@import '../abstracts/base'; 
+
+.searchbar-container {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #3D435A;
+    color: $light-gray;  
+
+    &:focus-within {
+        border: 2px solid $primary-color;
+    }  
+}
+
+.searchbar {
+    padding: 8px 16px;
+    color: $light-gray;
+    outline: none;
+    border: none;
+    background-color: transparent;
+    width: 100%;
+
+}
+
+
+.cursor-pointer {
+    cursor: pointer;
+}
