@@ -38,4 +38,4 @@ export interface UserDetails extends Omit<User, 'score'> {
 }
 
 
-export type SearchBy = 'email' | 'fullname' | 'login' | 'user' | 'name';
+export type SearchByType = 'email' | 'fullname' | 'login' | 'user' | 'name' | 'description' | 'topics' | 'readme';

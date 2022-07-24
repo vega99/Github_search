@@ -1,33 +1,28 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import SearchBar from "../components/SearchBar";
 import Title from "../components/Title";
 import { User } from "../global/user.interface";
-import {
-    ButtonGroup,
-    Col,
-    Dropdown,
-    DropdownButton,
-    Row,
-} from "react-bootstrap";
+import { Col, Row } from "react-bootstrap";
 import UserItem from "../components/UserItem";
 import Empty from "../components/Empty";
 import Loading from "../components/Loading";
 import RateLimit from "../components/RateLimit";
-import { TOKEN } from "../api/axios";
-import type { SearchBy } from "../global/user.interface";
-import getQueryStr from "../utils/getQueryStr";
+import type { SearchByType } from "../global/user.interface";
+import { getUserQuery } from "../utils/getQueryStr";
+import SearchBy from "../components/SearchBy";
 
+const values: SearchByType[] = ["email", "user", "fullname", "login", "name"];
 
 const UserPage = () => {
     const [value, setValue] = useState("");
     const [results, setResults] = useState<User[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
-    const [searchBy, setSearchBy] = useState<SearchBy>('login');
+    const [searchBy, setSearchBy] = useState<SearchByType>("login");
 
     const onSearch = async () => {
         setLoading(true);
-        let queryStr = getQueryStr(searchBy, value);
+        let queryStr = getUserQuery(searchBy, value, 'user');
         try {
             const res = await fetch(
                 `https://api.github.com/search/users?q=${queryStr}`,
@@ -35,7 +30,6 @@ const UserPage = () => {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
-                        Authorization: `Bearer ${TOKEN}`,
                     },
                 }
             );
@@ -49,7 +43,6 @@ const UserPage = () => {
             setResults(resData.items || []);
             setLoading(false);
         } catch (error) {
-            console.log("entró en error");
             console.log(error);
         }
     };
@@ -75,26 +68,13 @@ const UserPage = () => {
 
     return (
         <div>
-            <div className="d-flex justify-content-between flex-wrap ">
+            <div className="d-flex justify-content-between flex-wrap">
                 <Title title="Users" />
-                <div className="d-flex align-items-center">
-                    <span className="fw-bold text-secondary">
-                        Searching by: <span className="color-primary">{searchBy}</span>
-                    </span>
-                    <DropdownButton
-                        as={ButtonGroup}
-                        variant="secondary"
-                        title="Search By"
-                        className="ms-3"
-                        size="sm"
-                    >
-                        <Dropdown.Item onClick={() => setSearchBy('email')}>Email</Dropdown.Item>
-                        <Dropdown.Item onClick={() => setSearchBy('user')}>User</Dropdown.Item>
-                        <Dropdown.Item onClick={() => setSearchBy('login')}>Login</Dropdown.Item>
-                        <Dropdown.Item onClick={() => setSearchBy('fullname')}>Fullname</Dropdown.Item>
-                        <Dropdown.Item onClick={() => setSearchBy('name')}>Name</Dropdown.Item>
-                    </DropdownButton>
-                </div>
+                <SearchBy
+                    searchBy={searchBy}
+                    values={values}
+                    setSearchBy={setSearchBy}
+                />
             </div>
             <SearchBar
                 placeholder="Look for Github users"

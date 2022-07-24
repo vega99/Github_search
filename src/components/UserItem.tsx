@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { User } from "../global/user.interface";
 import UserModal from "./UserModal";
 
@@ -33,9 +34,6 @@ const UserItem = ({ user }: Props) => {
                             onClick={() => setShow(true)}
                         >
                             See details
-                        </button>
-                        <button className="button-secondary">
-                            Repositories
                         </button>
                     </div>
                 </div>

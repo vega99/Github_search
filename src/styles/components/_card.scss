@@ -1,6 +1,7 @@
 @import '../abstracts/base';
 
 
+
 .user-item {
     background-color: $bg;
     padding: 8px;
@@ -10,4 +11,9 @@
 .user-img {
     width: 100px;
     height: auto;
+}
+
+.repo-item {
+    @extend .user-item;
+    padding: 1.5rem;
 }

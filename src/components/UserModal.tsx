@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Modal, ModalBody, Spinner } from "react-bootstrap";
-import { TOKEN } from "../api/axios";
+import { CloseButton, Modal, ModalBody } from "react-bootstrap";
 import { UserDetails } from "../global/user.interface";
+import Loading from "./Loading";
 
 interface Props {
     show: boolean;
@@ -16,13 +16,13 @@ const UserModal = (props: Props) => {
     useEffect(() => {
         // Esta linea prevee que se hagan peticiones al servidor cuando el modal este cerrado
         if (!props.show) return;
+        // function para obtener los datos del usuario
         let getDetails = async () => {
             try {
                 const res = await fetch(props.url, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
-                        Authorization: `Bearer ${TOKEN}`,
                     },
                 });
                 const data = await res.json();
@@ -39,21 +39,64 @@ const UserModal = (props: Props) => {
         <Modal show={props.show} onHide={props.hide} centered>
             <ModalBody className="bg text-white rounded">
                 {loading ? (
-                    <div className="text-center">
-                        <Spinner animation="border" variant="secondary" />
-                    </div>
+                    <Loading />
                 ) : (
                     <div className="d-flex flex-column align-items-center">
+                        <div className="align-self-end">
+                            <CloseButton onClick={props.hide} />
+                        </div>
                         <img
                             src={details?.avatar_url}
                             className="img-fluid rounded-circle"
-                            style={{
-                                width: 300,
-                            }}
                             alt=""
                         />
-                        <div className="mt-3">
-                            <h4>{details?.name}</h4>
+                        <div className="mt-3" style={{ minWidth: "80%" }}>
+                            <div>
+                                <label htmlFor="" className="fw-bold">
+                                    Name:
+                                </label>
+                                <span className="fw-bolder fst-italic fs-6 ms-3 text-warning">
+                                    {details?.name || "No name"}
+                                </span>
+
+                                <hr className="solid" />
+                            </div>
+                            <div className="">
+                                <label htmlFor="" className="fw-bold">
+                                    Company:
+                                </label>
+                                <span className="fw-bolder fst-italic fs-6 ms-3 text-warning">
+                                    {details?.company || "No company"}
+                                </span>
+                                <hr className="solid" />
+                            </div>
+                            <div>
+                                <label htmlFor="" className="fw-bold">
+                                    Bio:
+                                </label>
+                                <span className="fw-bolder fst-italic fs-6 ms-3 lh-sm text-light text-just">
+                                    {details?.bio || "No bio"}
+                                </span>
+                                <hr className="solid" />
+                            </div>
+                            <div className="d-flex flex-wrap justify-content-between w-100">
+                                <div>
+                                    <label htmlFor="" className="fw-bold">
+                                        Followers:
+                                    </label>
+                                    <span className="fw-bolder fst-italic fs-6 ms-2 lh-sm text-info">
+                                        {details?.followers}
+                                    </span>
+                                </div>
+                                <div>
+                                    <label htmlFor="" className="fw-bold">
+                                        Following:
+                                    </label>
+                                    <span className="fw-bolder fst-italic fs-6 ms-2 lh-sm text-success">
+                                        {details?.following}
+                                    </span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 )}
