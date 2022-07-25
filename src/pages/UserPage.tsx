@@ -6,7 +6,7 @@ import { Col, Row } from "react-bootstrap";
 import UserItem from "../components/UserItem";
 import Empty from "../components/Empty";
 import Loading from "../components/Loading";
-import RateLimit from "../components/RateLimit";
+import Error from "../components/Error";
 import type { SearchByType } from "../global/user.interface";
 import { getUserQuery } from "../utils/getQueryStr";
 import SearchBy from "../components/SearchBy";
@@ -17,7 +17,7 @@ const UserPage = () => {
     const [value, setValue] = useState("");
     const [results, setResults] = useState<User[]>([]);
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(false);
+    const [error, setError] = useState('');
     const [searchBy, setSearchBy] = useState<SearchByType>("login");
 
     const onSearch = async () => {
@@ -36,13 +36,14 @@ const UserPage = () => {
             if (res.status === 403) {
                 // Cuando la API de Github devuelve un status 403 es porque el límite de llamadas se ha excedido
                 setLoading(false);
-                return setError(true);
+                return setError('Ups! Rate limit exceeded!');
             }
             const resData = await res.json();
-            setError(false);
+            setError('');
             setResults(resData.items || []);
             setLoading(false);
         } catch (error) {
+            setError('Ups!, Something went wrong');
             console.log(error);
         }
     };
@@ -83,7 +84,7 @@ const UserPage = () => {
                 clear={clearSearhbar}
             />
             {error ? (
-                <RateLimit />
+                <Error error={error} />
             ) : loading ? (
                 <Loading />
             ) : (

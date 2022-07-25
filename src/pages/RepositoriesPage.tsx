@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import SearchBar from "../components/SearchBar";
 import SearchBy from "../components/SearchBy";
 import Title from "../components/Title";
 import { SearchByType } from "../global/user.interface";
 import { getUserQuery } from "../utils/getQueryStr";
 import { Repository } from "../global/repository.interface";
-import RateLimit from "../components/RateLimit";
+import Error from "../components/Error";
 import Loading from "../components/Loading";
 import { Col, Row } from "react-bootstrap";
 import Empty from "../components/Empty";
-import UserItem from "../components/UserItem";
 import RepoItem from "../components/RepoItem";
 
 const values: SearchByType[] = ["name", "description", "topics", "readme"];
@@ -19,7 +17,7 @@ const RepositoriesPage = () => {
     const [value, setValue] = useState("");
     const [searchBy, setSearchBy] = useState<SearchByType>("name");
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(false);
+    const [error, setError] = useState('');
     const [results, setResults] = useState<Repository[]>([])
 
 
@@ -39,10 +37,10 @@ const RepositoriesPage = () => {
             if (res.status === 403) {
                 // Cuando la API de Github devuelve un status 403 es porque el límite de llamadas se ha excedido
                 setLoading(false);
-                return setError(true);
+                return setError('Ups! Rate limit exceeded');
             }
             const resData = await res.json()
-            setError(false);
+            setError('');
             setResults(resData.items || []);
             setLoading(false);
         } catch (error) {
@@ -85,7 +83,7 @@ const RepositoriesPage = () => {
                 onChange={(e) => setValue(e.target.value)}
             />
             {error ? (
-                <RateLimit />
+                <Error error={error} />
             ) : loading ? (
                 <Loading />
             ) : (
