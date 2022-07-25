@@ -16,8 +16,7 @@ function App() {
                 <SidebarProvider>
                     <Routes>
                         <Route element={<SideBar />}>
-                            <Route path="/" element={<HomePage />} />
-                            <Route path="/users" element={<UserPage />} />
+                            <Route path="/" element={<UserPage />} />
                             <Route path="/repositories" element={<RepositoriesPage />}/>
                             <Route path="*" element={<NotFound />} />
                         </Route>

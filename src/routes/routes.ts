@@ -5,7 +5,7 @@ interface Route {
 
 const routes: Route[] = [
     {
-        path: "/users",
+        path: "/",
         title: "Users",
     },
     {
