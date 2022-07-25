@@ -4,7 +4,6 @@ import { Route, Routes, BrowserRouter } from "react-router-dom";
 import "./App.css";
 import SideBar from "./components/SideBar";
 import SidebarProvider from "./context/SidebarContext";
-import HomePage from "./pages/HomePage";
 import NotFound from "./pages/NotFound";
 import RepositoriesPage from "./pages/RepositoriesPage";
 import UserPage from "./pages/UserPage";
